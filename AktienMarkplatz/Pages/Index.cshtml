@@ -1,17 +1,20 @@
 ﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
+@model AktienMarkplatz.Pages.IndexModel
+
+<h1>Aktie suchen</h1>
+
+<form method="get">
+    <input type="text"
+           name="symbol"
+           placeholder="z. B. AAPL, MSFT, TSLA"
+           value="@Model.Symbol" />
+
+    <button type="submit">Suchen</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.ApiAntwort))
+{
+    <h2>API Antwort</h2>
+
+    <pre>@Model.ApiAntwort</pre>
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
-<div class="d-flex justify-content-center mt-4">
-    <div style="width: 100%; max-width: 500px;">
-        <label for="dbInhalt" class="form-label">Daten aus der Datenbank (Test "Test")</label>
-        <textarea id="dbInhalt" class="form-control" rows="8" readonly>@Model.ApiAntwort</textarea>
-    </div>
-</div>

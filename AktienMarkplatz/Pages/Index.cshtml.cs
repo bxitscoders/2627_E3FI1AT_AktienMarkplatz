@@ -1,6 +1,5 @@
 using AktienMarkplatz.API;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Data.Common;
 
 namespace AktienMarkplatz.Pages
 {
@@ -13,12 +12,18 @@ namespace AktienMarkplatz.Pages
             _connection = new Connection();
         }
 
-       
         public string ApiAntwort { get; private set; } = string.Empty;
 
-        public async Task OnGetAsync()
+        public string Symbol { get; set; } = string.Empty;
+
+        public async Task OnGetAsync(string symbol)
         {
-            ApiAntwort = await _connection.GetAktie("MSFT");
+            Symbol = symbol;
+
+            if (!string.IsNullOrWhiteSpace(symbol))
+            {
+                ApiAntwort = await _connection.GetAktie(symbol.ToUpper());
+            }
         }
     }
 }
