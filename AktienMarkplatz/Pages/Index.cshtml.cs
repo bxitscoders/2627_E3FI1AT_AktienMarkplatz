@@ -1,41 +1,24 @@
-using Microsoft.AspNetCore.Mvc;
+using AktienMarkplatz.API;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Data.Sqlite;
-using System.Text;
+using System.Data.Common;
 
 namespace AktienMarkplatz.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly IConfiguration _configuration;
+        private readonly Connection _connection;
 
-        public IndexModel(IConfiguration configuration)
+        public IndexModel()
         {
-            _configuration = configuration;
+            _connection = new Connection();
         }
 
-        public string DbInhalt { get; private set; } = string.Empty;
+       
+        public string ApiAntwort { get; private set; } = string.Empty;
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            var connectionString = _configuration.GetConnectionString("AktienMarkplatzDb");
-
-            using var connection = new SqliteConnection(connectionString);
-            connection.Open();
-
-            using var command = connection.CreateCommand();
-            command.CommandText = "SELECT Id, Name FROM Test ORDER BY Id";
-
-            var sb = new StringBuilder();
-            using var reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                var id = reader.GetInt32(0);
-                var name = reader.GetString(1);
-                sb.AppendLine($"{id}: {name}");
-            }
-
-            DbInhalt = sb.Length > 0 ? sb.ToString() : "Keine Daten gefunden.";
+            ApiAntwort = await _connection.GetAktie("MSFT");
         }
     }
 }
