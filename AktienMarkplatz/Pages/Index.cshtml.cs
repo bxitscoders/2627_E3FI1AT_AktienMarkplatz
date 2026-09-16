@@ -7,12 +7,13 @@ namespace AktienMarkplatz.Pages
     {
         private readonly Connection _connection;
 
-        public IndexModel()
+        public IndexModel(IConfiguration configuration)
         {
-            _connection = new Connection();
+            string apiKey = configuration["StockApi:ApiKey"] ?? string.Empty;
+            _connection = new Connection(apiKey);
         }
 
-        public string ApiAntwort { get; private set; } = string.Empty;
+        public DividendApiResponse? ApiAntwort { get; private set; }
 
         public string Symbol { get; set; } = string.Empty;
 
