@@ -1,24 +1,31 @@
 using AktienMarkplatz.API;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Data.Common;
 
 namespace AktienMarkplatz.Pages
 {
+    // Seite zum Suchen einer Aktie und Anzeigen ihrer Dividenden.
     public class IndexModel : PageModel
     {
         private readonly Connection _connection;
 
-        public IndexModel()
+        public IndexModel(IConfiguration configuration)
         {
-            _connection = new Connection();
+            string apiKey = configuration["StockApi:ApiKey"] ?? string.Empty;
+            _connection = new Connection(apiKey);
         }
 
-       
-        public string ApiAntwort { get; private set; } = string.Empty;
+        public DividendenAntwort? Antwort { get; private set; }
 
-        public async Task OnGetAsync()
+        public string Symbol { get; set; } = string.Empty;
+
+        public async Task OnGetAsync(string symbol)
         {
-            ApiAntwort = await _connection.GetAktie("MSFT");
+            Symbol = symbol;
+
+            if (!string.IsNullOrWhiteSpace(symbol))
+            {
+                Antwort = await _connection.GetAktie(symbol);
+            }
         }
     }
 }

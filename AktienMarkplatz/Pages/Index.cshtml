@@ -1,17 +1,67 @@
-﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
+@page
+@model AktienMarkplatz.Pages.IndexModel
+
+<section class="suche">
+    <h1 class="suche__titel">Welche Aktie interessiert dich?</h1>
+
+    <form method="get" class="suche__form">
+        <label for="symbol" class="visually-hidden">Ticker oder Firmenname</label>
+        <input id="symbol"
+               type="text"
+               name="symbol"
+               class="suche__eingabe"
+               placeholder="Ticker oder Firmenname, z. B. Apple, SAP, ServiceNow"
+               value="@Model.Symbol"
+               autocomplete="off" />
+        <button type="submit" class="suche__button">Suchen</button>
+    </form>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.Symbol))
+{
+    <section class="ergebnis" aria-live="polite">
+        @if (Model.Antwort is null)
+        {
+            <p class="ergebnis__leer">
+                Keine Aktie gefunden für „@Model.Symbol“. Versuch's mit dem Tickersymbol, z. B. AAPL.
+            </p>
+        }
+        else if (Model.Antwort.Ergebnisse.Count == 0)
+        {
+            <div class="ergebnis__kopf">
+                <span class="ergebnis__ticker">@Model.Symbol.ToUpper()</span>
+                <span class="ergebnis__meta">Keine Dividendenhistorie hinterlegt</span>
+            </div>
+            <p class="ergebnis__leer">Diese Aktie schüttet aktuell keine Dividende aus.</p>
+        }
+        else
+        {
+            var erste = Model.Antwort.Ergebnisse[0];
+
+            <div class="ergebnis__kopf">
+                <span class="ergebnis__ticker">@erste.Tickersymbol</span>
+                <span class="ergebnis__meta">Ergebnisse für „@Model.Symbol“</span>
+            </div>
+
+            <table class="ergebnis__tabelle">
+                <thead>
+                    <tr>
+                        <th scope="col">Auszahlung</th>
+                        <th scope="col">Ex-Datum</th>
+                        <th scope="col">Betrag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dividende in Model.Antwort.Ergebnisse)
+                    {
+                        <tr>
+                            <td>@dividende.Auszahlungsdatum</td>
+                            <td>@dividende.ExDatum</td>
+                            <td class="ergebnis__betrag">@dividende.Betrag.ToString("0.00") €</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </section>
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
-<div class="d-flex justify-content-center mt-4">
-    <div style="width: 100%; max-width: 500px;">
-        <label for="dbInhalt" class="form-label">Daten aus der Datenbank (Test "Test")</label>
-        <textarea id="dbInhalt" class="form-control" rows="8" readonly>@Model.ApiAntwort</textarea>
-    </div>
-</div>
