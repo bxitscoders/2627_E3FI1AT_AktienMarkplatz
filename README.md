@@ -31,22 +31,31 @@ AktienMarkplatz soll eine Webanwendung werden, auf der sich Benutzer anmelden k�
 
 ### Aktienkurse
 
-- Die Website ruft Aktienkurse über eine externe API ab.
-- Aktienname, Symbol, aktueller Kurs und Kursveränderung werden angezeigt.
-- Die Daten werden auf der Startseite beziehungsweise in einem Dashboard dargestellt.
-- Bei einem API-Fehler soll eine verständliche Meldung angezeigt werden.
+
+### Tabs und persönliche Bereiche
+
+- **Startseite:** Übersicht über aktuelle Aktienkurse und Marktdaten.
+- **Profil:** Anzeige und spätere Verwaltung der persönlichen Benutzerdaten.
+- **Kollektion:** Persönliche Sammlung gespeicherter Aktienkurse.
+- Benutzer können Aktien markieren und zu ihrer Kollektion hinzufügen.
+- Gespeicherte Aktien werden dauerhaft dem jeweiligen Benutzer zugeordnet.
+- Markierte Aktien können in der Kollektion angezeigt und wieder entfernt werden.
 
 ## Geplanter MVP
 
-Die erste lauffähige Version soll folgende Funktionen enthalten:
+6. Tabs für Startseite, Profil und Kollektion
+7. Aktien markieren und in der persönlichen Kollektion speichern
+8. Einfache, übersichtliche und responsive Benutzeroberfläche
 
 1. Login-Seite
 2. Speicherung und Prüfung der Benutzerdaten
-3. Logout-Funktion
+7. Profil- und Kollektion-Tabs erstellen
+8. Datenmodell für gespeicherte Aktien anlegen
+9. Markieren, Anzeigen und Entfernen von Aktien implementieren
+10. Fehlerbehandlung und Funktionstests durchführen
 4. Geschütztes Benutzer-Dashboard
 5. Abruf und Anzeige von Aktienkursen über eine API
 6. Einfache, übersichtliche und responsive Benutzeroberfläche
-
 ## Geplanter Ablauf
 
 1. Datenmodell für Benutzer und Login erstellen
@@ -54,7 +63,9 @@ Die erste lauffähige Version soll folgende Funktionen enthalten:
 3. Login und Logout implementieren
 4. Zugriffsschutz für angemeldete Benutzer einrichten
 5. Geeignete Aktien-API auswählen und anbinden
-6. Dashboard für Aktienkurse entwickeln
+- Tabelle für Nutzer und Login-Daten
+- Tabelle für gespeicherte Aktien beziehungsweise Kollektionen
+- Verknüpfung zwischen Benutzer und gespeicherten Aktien
 7. Fehlerbehandlung und Funktionstests durchführen
 
 ## Mögliche Erweiterungen
