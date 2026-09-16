@@ -12,21 +12,21 @@
     <button type="submit">Suchen</button>
 </form>
 
-@if (Model.ApiAntwort is not null)
+@if (Model.Antwort is not null)
 {
     <h2>Dividenden für @Model.Symbol</h2>
 
-    @if (Model.ApiAntwort.Results.Count == 0)
+    @if (Model.Antwort.Ergebnisse.Count == 0)
     {
         <p>Keine Dividenden gefunden.</p>
     }
     else
     {
         <ul>
-            @foreach (var dividend in Model.ApiAntwort.Results)
+            @foreach (var dividende in Model.Antwort.Ergebnisse)
             {
                 <li>
-                    @dividend.PayDate — @dividend.CashAmount € (Ex-Datum: @dividend.ExDividendDate)
+                    @dividende.Auszahlungsdatum — @dividende.Betrag € (Ex-Datum: @dividende.ExDatum)
                 </li>
             }
         </ul>

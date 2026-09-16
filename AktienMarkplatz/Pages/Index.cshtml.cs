@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AktienMarkplatz.Pages
 {
+    // Seite zum Suchen einer Aktie und Anzeigen ihrer Dividenden.
     public class IndexModel : PageModel
     {
         private readonly Connection _connection;
@@ -13,7 +14,7 @@ namespace AktienMarkplatz.Pages
             _connection = new Connection(apiKey);
         }
 
-        public DividendApiResponse? ApiAntwort { get; private set; }
+        public DividendenAntwort? Antwort { get; private set; }
 
         public string Symbol { get; set; } = string.Empty;
 
@@ -23,7 +24,7 @@ namespace AktienMarkplatz.Pages
 
             if (!string.IsNullOrWhiteSpace(symbol))
             {
-                ApiAntwort = await _connection.GetAktie(symbol.ToUpper());
+                Antwort = await _connection.GetAktie(symbol);
             }
         }
     }
