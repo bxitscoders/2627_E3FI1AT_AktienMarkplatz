@@ -1,0 +1,22 @@
+.login {
+  max-width: 360px;
+  margin: 3rem auto 0;
+}
+
+.login__titel {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.5rem;
+  color: var(--ink);
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login__button {
+  margin-top: 0.5rem;
+  width: 100%;
+}

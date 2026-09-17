@@ -6,18 +6,31 @@
     <title>@ViewData["Title"] - AktienMarkplatz</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AktienMarkplatz.styles.css" asp-append-version="true" />
 </head>
 <body>
+    @{
+        var aktuelleSeite = ViewContext.RouteData.Values["page"]?.ToString();
+
+        string NavKlasse(string seite) => aktuelleSeite == seite
+            ? "kopf__nav-link kopf__nav-link--aktiv"
+            : "kopf__nav-link";
+    }
     <header class="kopf">
-        <a class="kopf__marke" asp-area="" asp-page="/Index">AktienMarkplatz</a>
-        <nav class="kopf__nav">
-            <a asp-area="" asp-page="/Privacy">Datenschutz</a>
-        </nav>
+        <div class="kopf__inhalt">
+            <a class="kopf__marke" asp-area="" asp-page="/Index">AktienMarkplatz</a>
+            <nav class="kopf__nav" aria-label="Hauptnavigation">
+                <a class="@NavKlasse("/Portfolio")" asp-area="" asp-page="/Portfolio">Portfolio</a>
+                <a class="@NavKlasse("/Aktienmarkt")" asp-area="" asp-page="/Aktienmarkt">Aktienmarkt</a>
+                <a class="@NavKlasse("/Verrechnungskonto")" asp-area="" asp-page="/Verrechnungskonto">Verrechnungskonto</a>
+                <a class="@NavKlasse("/News")" asp-area="" asp-page="/News">News</a>
+                <a class="@NavKlasse("/Login")" asp-area="" asp-page="/Login">Login</a>
+            </nav>
+        </div>
     </header>
 
     <main class="inhalt">
@@ -25,7 +38,8 @@
     </main>
 
     <footer class="fuss">
-        &copy; 2026 AktienMarkplatz
+        <span>&copy; 2026 AktienMarkplatz</span>
+        <a asp-area="" asp-page="/Privacy">Datenschutz</a>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
