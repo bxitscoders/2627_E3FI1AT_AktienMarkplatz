@@ -4,7 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>17e7ee20-5473-4c40-8638-6f6ecaa34650</UserSecretsId>
+    <UserSecretsId>e32c94f2-ae76-48de-856b-3a23d2d174fa</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CoreIdent.Core" Version="0.3.6" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
   </ItemGroup>
 
