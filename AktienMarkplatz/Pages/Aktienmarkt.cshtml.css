@@ -1,0 +1,137 @@
+/* Suche */
+
+.suche {
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2.5rem 0;
+}
+
+.suche__titel {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 2rem;
+  color: var(--ink);
+  max-width: 18ch;
+}
+
+.suche__form {
+  display: flex;
+  width: 100%;
+  max-width: 480px;
+  gap: 0.625rem;
+}
+
+.suche__eingabe {
+  flex: 1;
+  min-width: 0;
+  padding: 0.9rem 1.1rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-s);
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.suche__eingabe::placeholder {
+  color: var(--ink-muted);
+}
+
+.suche__eingabe:focus {
+  outline: none;
+  border-color: var(--akzent);
+  box-shadow: 0 0 0 3px var(--akzent-tint);
+}
+
+.suche__button {
+  padding: 0.9rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-s);
+  background: var(--akzent);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.suche__button:hover {
+  background: var(--akzent-tief);
+}
+
+/* Ergebnis */
+
+.ergebnis {
+  animation: erscheinen 0.35s ease;
+}
+
+@keyframes erscheinen {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ergebnis__kopf {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.9rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 2px solid var(--ink);
+}
+
+.ergebnis__ticker {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--akzent);
+}
+
+.ergebnis__meta {
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}
+
+.ergebnis__betrag {
+  font-weight: 500;
+}
+
+.ergebnis__leer {
+  color: var(--ink-muted);
+  padding: 1rem 0;
+}
+
+@media (max-width: 520px) {
+  .suche__form {
+    flex-direction: column;
+  }
+
+  .suche__button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ergebnis {
+    animation: none;
+  }
+
+  .suche__eingabe,
+  .suche__button {
+    transition: none;
+  }
+}

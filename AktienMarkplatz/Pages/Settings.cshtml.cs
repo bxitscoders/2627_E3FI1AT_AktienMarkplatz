@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AktienMarkplatz.Pages
 {
-    public class PrivacyModel : PageModel
+    // TODO: Login-Formular mit E-Mail/Passwort und echter Anmeldung umsetzen.
+    public class LoginModel : PageModel
     {
         public void OnGet()
         {
         }
     }
-
 }

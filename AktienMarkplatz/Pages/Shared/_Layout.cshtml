@@ -1,46 +1,45 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="de">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AktienMarkplatz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AktienMarkplatz.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">AktienMarkplatz</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    @{
+        var aktuelleSeite = ViewContext.RouteData.Values["page"]?.ToString();
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - AktienMarkplatz - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        string NavKlasse(string seite) => aktuelleSeite == seite
+            ? "kopf__nav-link kopf__nav-link--aktiv"
+            : "kopf__nav-link";
+    }
+    <header class="kopf">
+        <div class="kopf__inhalt">
+            <a class="kopf__marke" asp-area="" asp-page="/Index">AktienMarkplatz</a>
+            <nav class="kopf__nav" aria-label="Hauptnavigation">
+                <a class="@NavKlasse("/Portfolio")" asp-area="" asp-page="/Portfolio">Portfolio</a>
+                <a class="@NavKlasse("/Aktienmarkt")" asp-area="" asp-page="/Aktienmarkt">Aktienmarkt</a>
+                <a class="@NavKlasse("/Verrechnungskonto")" asp-area="" asp-page="/Verrechnungskonto">Verrechnungskonto</a>
+                <a class="@NavKlasse("/News")" asp-area="" asp-page="/News">News</a>
+                <a class="@NavKlasse("/Login")" asp-area="" asp-page="/Login">Login</a>
+            </nav>
         </div>
+    </header>
+
+    <main class="inhalt">
+        @RenderBody()
+    </main>
+
+    <footer class="fuss">
+        <span>&copy; 2026 AktienMarkplatz</span>
+        <a asp-area="" asp-page="/Privacy">Datenschutz</a>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

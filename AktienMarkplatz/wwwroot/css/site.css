@@ -1,31 +1,290 @@
+:root {
+  --bg: #ffffff;
+  --panel: #f4f5f7;
+  --ink: #14161a;
+  --ink-muted: #667085;
+  --akzent: #2f6fed;
+  --akzent-tief: #1c4bb8;
+  --akzent-tint: rgba(47, 111, 237, 0.12);
+  --line: #e3e5ea;
+  --gain: #0a8a52;
+  --gain-tint: rgba(10, 138, 82, 0.12);
+  --loss: #d64545;
+  --loss-tint: rgba(214, 69, 69, 0.12);
+  --radius-s: 8px;
+  --content-width: 760px;
+  --header-width: 1280px;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+  font-size: 16px;
 }
 
 body {
-  margin-bottom: 60px;
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+a {
+  color: var(--akzent);
+  text-decoration: none;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+a:hover {
+  text-decoration: underline;
+}
+
+:focus-visible {
+  outline: 2px solid var(--akzent);
+  outline-offset: 2px;
+}
+
+/* Kopfbereich */
+
+.kopf {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.kopf__inhalt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--header-width);
+  margin: 0 auto;
+  padding: 1.25rem 2.5rem;
+}
+
+.kopf__marke {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.kopf__marke::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--akzent);
+}
+
+.kopf__marke:hover {
+  text-decoration: none;
+}
+
+.kopf__nav {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.kopf__nav-link {
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.kopf__nav-link:hover {
+  color: var(--ink);
+  background: rgba(20, 22, 26, 0.05);
+  text-decoration: none;
+}
+
+.kopf__nav-link--aktiv {
+  color: var(--ink);
+  background: rgba(20, 22, 26, 0.08);
+}
+
+.inhalt {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* Fuss */
+
+.fuss {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+}
+
+.fuss a {
+  color: var(--ink-muted);
+}
+
+/* Gemeinsame Bausteine fuer Daten-Tabellen (Aktienmarkt, Portfolio) */
+
+.tabelle {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+}
+
+.tabelle th {
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--ink-muted);
+  font-size: 0.8125rem;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.tabelle td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.tabelle th:last-child,
+.tabelle td:last-child {
+  text-align: right;
+}
+
+.veraenderung--gewinn {
+  color: var(--gain);
+}
+
+.veraenderung--verlust {
+  color: var(--loss);
+}
+
+/*
+  Styleguide fuer neue Seiten:
+  Diese Bausteine (.btn, .feld, .karte) sind fuer alle Seiten gedacht.
+  Bitte fuer Buttons, Formulare und Karten immer diese Klassen verwenden,
+  statt eigene neu zu erfinden, damit alle Seiten gleich aussehen.
+*/
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-s);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn--primaer {
+  background: var(--akzent);
+  color: #ffffff;
+}
+
+.btn--primaer:hover {
+  background: var(--akzent-tief);
+}
+
+.btn--sekundaer {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.btn--sekundaer:hover {
+  background: var(--panel);
+}
+
+.feld {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.feld__label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+}
+
+.feld__eingabe {
+  padding: 0.75rem 0.9rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-s);
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.feld__eingabe::placeholder {
+  color: var(--ink-muted);
+}
+
+.feld__eingabe:focus {
+  outline: none;
+  border-color: var(--akzent);
+  box-shadow: 0 0 0 3px var(--akzent-tint);
+}
+
+.karte {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius-s) * 2);
+  padding: 1.5rem;
+}
+
+.leer {
+  color: var(--ink-muted);
+}
+
+@media (max-width: 520px) {
+  .tabelle {
+    font-size: 0.8125rem;
+  }
+
+  .kopf__inhalt {
+    flex-wrap: wrap;
+    row-gap: 0.75rem;
+    padding: 1.1rem 1.5rem;
+  }
+
+  .kopf__nav {
+    gap: 0.125rem;
+  }
+
+  .kopf__nav-link {
+    padding: 0.4rem 0.75rem;
+  }
 }

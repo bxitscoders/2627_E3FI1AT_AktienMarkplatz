@@ -1,0 +1,75 @@
+.portfolio-kopf {
+  padding: 1.5rem 0 2.5rem;
+}
+
+.portfolio-kopf__titel {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+  color: var(--ink);
+}
+
+.portfolio-kopf__wert {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.portfolio-kopf__betrag {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.portfolio-kopf__chip {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-s);
+}
+
+.portfolio-kopf__chip.veraenderung--gewinn {
+  background: var(--gain-tint);
+}
+
+.portfolio-kopf__chip.veraenderung--verlust {
+  background: var(--loss-tint);
+}
+
+.positionen,
+.verlauf {
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.positionen__titel,
+.verlauf__titel {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  color: var(--ink);
+}
+
+.positionen__scroll {
+  overflow-x: auto;
+}
+
+.positionen__scroll .tabelle {
+  min-width: 640px;
+}
+
+.positionen__symbol {
+  font-weight: 500;
+  color: var(--akzent);
+}
+
+@media (max-width: 520px) {
+  .portfolio-kopf__betrag {
+    font-size: 2rem;
+  }
+}
