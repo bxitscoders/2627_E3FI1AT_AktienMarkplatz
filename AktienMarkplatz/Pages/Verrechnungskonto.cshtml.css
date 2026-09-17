@@ -1,0 +1,49 @@
+.konto-kopf {
+  padding: 1.5rem 0 2rem;
+}
+
+.konto-kopf__titel {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+  color: var(--ink);
+}
+
+.konto-kopf__betrag {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.einzahlung,
+.buchungen {
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.einzahlung__titel,
+.buchungen__titel {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  color: var(--ink);
+}
+
+.einzahlung__form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  max-width: 320px;
+}
+
+.einzahlung__form .feld {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.einzahlung__form .btn {
+  margin-top: 1.75rem;
+}
