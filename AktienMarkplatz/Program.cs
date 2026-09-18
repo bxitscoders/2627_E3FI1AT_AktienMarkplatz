@@ -2,7 +2,11 @@ using AktienMarkplatz.Data;
 
 using AktienMarkplatz.Models;
 
+using AktienMarkplatz.Services;
+
 using Microsoft.AspNetCore.Identity;
+
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -37,6 +41,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 
 .AddDefaultTokenProviders();
+
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
