@@ -74,5 +74,24 @@ namespace AktienMarkplatz.API
             // Sonst einfach die erste passende Aktie nehmen.
             return aktien.FirstOrDefault()?.Tickersymbol;
         }
+
+        // Holt die aktuellsten News-Einträge (Standard: aufsteigend, 10 Einträge,
+        // sortiert nach published_utc). Verwendet denselben API-Key wie die
+        // anderen Methoden.
+        public async Task<NewsSucheAntwort?> GetNews(int limit = 10, string order = "desc")
+        {
+            if (limit < 1) limit = 1;
+            if (limit > 100) limit = 100; // API-safety upper bound
+
+            // order: "desc" = neueste zuerst, "asc" = älteste zuerst
+            string orderParam = string.IsNullOrWhiteSpace(order) ? "desc" : order;
+            string url = $"https://api.massive.com/v2/reference/news?order={orderParam}&limit={limit}&sort=published_utc&apiKey={_apiKey}";
+
+            HttpResponseMessage antwort = await _httpClient.GetAsync(url);
+            antwort.EnsureSuccessStatusCode();
+
+            return await antwort.Content.ReadFromJsonAsync<NewsSucheAntwort>();
+        }
     }
+
 }
