@@ -5,5 +5,83 @@
     ViewData["Title"] = "Verrechnungskonto";
 }
 
-@* TODO: Kontostand anzeigen und Einzahlung auf das Verrechnungskonto ermöglichen. *@
 <h1>Verrechnungskonto</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Dein Konto</h5>
+                <p>Kontoinhaber: local-test-user</p>
+                <p>Kontostand: <strong>@Model.MeinKonto?.Kontostand.ToString("C")</strong></p>
+            </div>
+        </div>
+
+        <form method="post" asp-page-handler="Load" class="mb-2">
+            <div class="input-group">
+                <select asp-for="TransferDirection" class="form-select" id="TransferDirectionLoad">
+                    <option value="verrechnung_to_me">Einzahlen auf Mein Konto</option>
+                    <option value="me_to_verrechnung">Einzahlen auf Verrechnungskonto</option>
+                </select>
+                <input asp-for="Betrag" class="form-control" placeholder="Betrag" />
+                <button type="submit" class="btn btn-success">Einzahlen</button>
+            </div>
+        </form>
+
+        <form method="post" asp-page-handler="Transfer" id="transferForm">
+            <div class="mb-3">
+                <label for="TransferDirection" class="form-label">Richtung</label>
+                <select asp-for="TransferDirection" class="form-select mb-2" id="TransferDirection">
+                    <option value="verrechnung_to_me">Verrechnungskonto → Mein Konto (Gebühr @Model.FeePercentPublic:P0)</option>
+                    <option value="me_to_verrechnung">Mein Konto → Verrechnungskonto</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="Betrag" class="form-label">Betrag (Testzwecke)</label>
+                <input asp-for="Betrag" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Geld überweisen</button>
+        </form>
+
+        <script>
+            (function(){
+                var form = document.getElementById('transferForm');
+                if (!form) return;
+                form.addEventListener('submit', function(e){
+                    var dirEl = document.getElementById('TransferDirection');
+                    var dir = dirEl ? dirEl.value : '';
+                    var betragEl = form.querySelector('input[name="Betrag"]');
+                    var betrag = parseFloat(betragEl ? betragEl.value : 0) || 0;
+                    var feePercent = parseFloat('@Model.FeePercentPublic');
+
+                    if (dir === 'verrechnung_to_me'){
+                        var fee = Math.round(betrag * feePercent * 100) / 100;
+                        var receive = Math.round((betrag - fee) * 100) / 100;
+                        var msg = 'Achtung: Bei dieser Überweisung fällt eine Gebühr von ' + (feePercent*100) + '% an.\n';
+                        msg += 'Überweisungsbetrag: ' + betrag.toFixed(2) + '\n';
+                        msg += 'Gebühr: ' + fee.toFixed(2) + '\n';
+                        msg += 'Empfänger erhält: ' + receive.toFixed(2) + '\n\nFortfahren?';
+                        if (!confirm(msg)){
+                            e.preventDefault();
+                        }
+                    }
+                });
+            })();
+        </script>
+
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            <div class="alert alert-info mt-3">@Model.Message</div>
+        }
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Verrechnungskonto</h5>
+                <p>Kontoname: Verrechnungskonto</p>
+                <p>Kontostand: <strong>@Model.Verrechnungskonto.Kontostand.ToString("C")</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
