@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Doku\SoftwareGuid.md" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CoreIdent.Core" Version="0.3.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.12" />
