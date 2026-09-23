@@ -24,16 +24,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 {
 
-    options.Password.RequiredLength = 8;
-
-    options.Password.RequireNonAlphanumeric = true;
-
-    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
 
     options.Lockout.MaxFailedAccessAttempts = 5;
-
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(45);
-
     options.User.RequireUniqueEmail = true;
 
 })
@@ -71,5 +69,11 @@ app.MapStaticAssets();
 app.MapRazorPages()
 
    .WithStaticAssets();
+
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/Identity/Account/Login?returnUrl=/Aktienmarkt");
+    return Task.CompletedTask;
+});
 
 app.Run();
