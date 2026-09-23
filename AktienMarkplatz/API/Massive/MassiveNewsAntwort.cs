@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AktienMarkplatz.API
+namespace AktienMarkplatz.API.Massive
 {
-    // Modell der Antwort für die News-Suche (entspricht dem Beispiel-JSON der API).
-    public class NewsSucheAntwort
+    // Antwort vom News-Endpoint der massive.com-API.
+    public class MassiveNewsAntwort
     {
         [JsonPropertyName("count")]
         public int? Count { get; set; }
@@ -17,13 +17,13 @@ namespace AktienMarkplatz.API
         public string? RequestId { get; set; }
 
         [JsonPropertyName("results")]
-        public List<NewsSucheEintrag>? Results { get; set; }
+        public List<MassiveNewsEintrag>? Results { get; set; }
 
         [JsonPropertyName("status")]
         public string? Status { get; set; }
     }
 
-    public class NewsSucheEintrag
+    public class MassiveNewsEintrag
     {
         [JsonPropertyName("amp_url")]
         public string? AmpUrl { get; set; }
