@@ -1,4 +1,4 @@
-using AktienMarkplatz.API;
+using AktienMarkplatz.API.Massive;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AktienMarkplatz.Pages
@@ -6,15 +6,15 @@ namespace AktienMarkplatz.Pages
     // Seite zum Anzeigen von News-Einträgen (zwei pro Reihe, max. 30 Einträge)
     public class NewsModel : PageModel
     {
-        private readonly Connection _connection;
+        private readonly MassiveVerbindung _massive;
 
         public NewsModel(IConfiguration configuration)
         {
-            string apiKey = configuration["StockApi:ApiKey"] ?? string.Empty;
-            _connection = new Connection(apiKey);
+            string massiveApiKey = configuration["MassiveApi:ApiKey"] ?? string.Empty;
+            _massive = new MassiveVerbindung(massiveApiKey);
         }
 
-        public NewsSucheAntwort? Antwort { get; private set; }
+        public MassiveNewsAntwort? Antwort { get; private set; }
 
         // Ausgewählte Sortierreihenfolge ("desc" oder "asc").
         public string SelectedOrder { get; private set; } = "desc";
@@ -25,7 +25,7 @@ namespace AktienMarkplatz.Pages
             SelectedOrder = string.IsNullOrWhiteSpace(order) ? "desc" : order;
 
             // Hole bis zu 30 News, mit gewählter Reihenfolge
-            Antwort = await _connection.NewsLaden(30, SelectedOrder);
+            Antwort = await _massive.NewsLaden(30, SelectedOrder);
         }
     }
 }
