@@ -49,7 +49,7 @@ namespace AktienMarkplatz.Classes
             return "veraenderung--verlust";
         }
 
-        // Liefert z. B. "▲ 1,2 %" oder "▼ 0,5 %".
+        // Kurs Steigung oder fal durch grün und rot dargestellt 
         public string KursAenderung()
         {
             double prozent = Math.Abs(VeraenderungHeuteProzent);
