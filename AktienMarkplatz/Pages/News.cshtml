@@ -30,18 +30,18 @@
 else
 {
     var items = Model.Antwort.Results;
-    <div class="container">
+    <div class="container-fluid">
         @for (int i = 0; i < items.Count; i += 2)
         {
-            <div class="row mb-3">
+            <div class="row mb-3 gx-2">
                 <div class="col-md-6">
-                    <div class="card">
+                    <div class="card h-100" style="padding:0.75rem;">
                         @if (!string.IsNullOrEmpty(items[i].ImageUrl))
                         {
-                            <img src="@items[i].ImageUrl" class="card-img-top" style="max-height:180px;object-fit:cover;" alt="">
+                            <img src="@items[i].ImageUrl" class="card-img-top" style="max-height:350px;object-fit:cover;" alt="">
                         }
                         <div class="card-body">
-                            <h5 class="card-title"><a href="@items[i].ArticleUrl" target="_blank" rel="noopener">@items[i].Title</a></h5>
+                            <h3 class="card-title"><a href="@items[i].ArticleUrl" target="_blank" rel="noopener">@items[i].Title</a></h3>
                             <p class="text-muted small">@items[i].Publisher?.Name - @((items[i].PublishedUtc.HasValue) ? items[i].PublishedUtc.Value.ToLocalTime().ToString("dd.MM.yyyy HH:mm") : "")</p>
                         </div>
                     </div>
@@ -50,13 +50,13 @@ else
                 <div class="col-md-6">
                     @if (i + 1 < items.Count)
                     {
-                        <div class="card">
+                        <div class="card h-100" style="padding:0.75rem;">
                             @if (!string.IsNullOrEmpty(items[i + 1].ImageUrl))
                             {
-                                <img src="@items[i + 1].ImageUrl" class="card-img-top" style="max-height:180px;object-fit:cover;" alt="">
+                                <img src="@items[i + 1].ImageUrl" class="card-img-top" style="max-height:350px;object-fit:cover;" alt="">
                             }
                             <div class="card-body">
-                                <h5 class="card-title"><a href="@items[i + 1].ArticleUrl" target="_blank" rel="noopener">@items[i + 1].Title</a></h5>
+                                <h3 class="card-title"><a href="@items[i + 1].ArticleUrl" target="_blank" rel="noopener">@items[i + 1].Title</a></h3>
                                 <p class="text-muted small">@items[i + 1].Publisher?.Name - @((items[i + 1].PublishedUtc.HasValue) ? items[i + 1].PublishedUtc.Value.ToLocalTime().ToString("dd.MM.yyyy HH:mm") : "")</p>
                             </div>
                         </div>
