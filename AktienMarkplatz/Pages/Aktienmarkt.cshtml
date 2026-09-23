@@ -6,8 +6,6 @@
 }
 
 <section class="suche">
-    <h1 class="suche__titel">Welche Aktie interessiert dich?</h1>
-
     <form method="get" class="suche__form">
         <label for="symbol" class="visually-hidden">Ticker oder Firmenname</label>
         <input id="symbol"
@@ -69,3 +67,30 @@
         }
     </section>
 }
+
+<section class="top-aktien">
+    <h2>Aktienprodukte</h2>
+
+    <table class="tabelle">
+        <thead>
+            <tr>
+                <th scope="col">Wertpapier</th>
+                <th scope="col">Kurs</th>
+                <th scope="col">Heute</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var aktie in Model.Boerse.GroessteAktien())
+            {
+                <tr>
+                    <td>
+                        <span class="wertpapier__ticker">@aktie.Symbol</span>
+                        <span class="wertpapier__name">@aktie.Name</span>
+                    </td>
+                    <td>@aktie.AktuellerKurs.ToString("0.00") $</td>
+                    <td class="@aktie.VeraenderungCssKlasse()">@aktie.KursAenderung()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
