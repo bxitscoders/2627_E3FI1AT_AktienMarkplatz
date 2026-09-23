@@ -69,3 +69,32 @@
         }
     </section>
 }
+
+<section class="top-aktien">
+    <h2>Die größten Aktien</h2>
+
+    <table class="tabelle">
+        <thead>
+            <tr>
+                <th scope="col">Ticker</th>
+                <th scope="col">Name</th>
+                <th scope="col">Kurs</th>
+                <th scope="col">Veränderung</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var (aktie, veraenderung) in Model.GroessteAktien)
+            {
+                var steigt = veraenderung >= 0;
+                <tr>
+                    <td>@aktie.Symbol</td>
+                    <td>@aktie.Name</td>
+                    <td>@aktie.AktuellerKurs.ToString("0.00") €</td>
+                    <td class="@(steigt ? "veraenderung--gewinn" : "veraenderung--verlust")">
+                        @(steigt ? "▲" : "▼") @Math.Abs(veraenderung).ToString("0.0") %
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
