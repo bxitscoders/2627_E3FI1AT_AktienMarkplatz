@@ -25,7 +25,7 @@ namespace AktienMarkplatz.Pages
             SelectedOrder = string.IsNullOrWhiteSpace(order) ? "desc" : order;
 
             // Hole bis zu 30 News, mit gewählter Reihenfolge
-            Antwort = await _connection.GetNews(30, SelectedOrder);
+            Antwort = await _connection.NewsLaden(30, SelectedOrder);
         }
     }
 }

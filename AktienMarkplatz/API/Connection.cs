@@ -33,7 +33,7 @@ namespace AktienMarkplatz.API
 
         // Sucht zum Suchbegriff (Firmenname oder Ticker) die passende Aktie
         // und liefert deren Dividenden.
-        public async Task<DividendenAntwort?> GetAktie(string suchbegriff)
+        public async Task<DividendenAntwort?> DividendenSuchen(string suchbegriff)
         {
             string? ticker = await TickerSuchen(suchbegriff);
 
@@ -67,7 +67,7 @@ namespace AktienMarkplatz.API
         }
 
         // Holt die aktuellen News. order: "desc" = neueste zuerst, "asc" = aelteste zuerst.
-        public Task<NewsSucheAntwort?> GetNews(int limit = 10, string order = "desc")
+        public Task<NewsSucheAntwort?> NewsLaden(int limit = 10, string order = "desc")
         {
             limit = Math.Clamp(limit, 1, 100);
 

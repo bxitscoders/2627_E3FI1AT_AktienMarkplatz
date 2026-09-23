@@ -39,7 +39,7 @@ namespace AktienMarkplatz.Pages
 
             if (!string.IsNullOrWhiteSpace(symbol))
             {
-                Antwort = await _connection.GetAktie(symbol);
+                Antwort = await _connection.DividendenSuchen(symbol);
             }
 
             Aktie[] geladeneAktien = await Task.WhenAll(
