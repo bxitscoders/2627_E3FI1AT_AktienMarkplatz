@@ -172,11 +172,13 @@ a:hover {
   text-align: right;
 }
 
-.veraenderung--gewinn {
+/* td.veraenderung--... statt nur .veraenderung--..., damit die Farbe die
+   allgemeine ".tabelle td { color: var(--ink); }"-Regel ueberschreibt. */
+td.veraenderung--gewinn {
   color: var(--gain);
 }
 
-.veraenderung--verlust {
+td.veraenderung--verlust {
   color: var(--loss);
 }
 
@@ -269,7 +271,22 @@ a:hover {
   color: var(--ink-muted);
 }
 
+/*
+  .suche__form steht hier statt in Aktienmarkt.cshtml.css: das <form>-Element
+  bekommt beim Razor-Build aus einer ASP.NET-Eigenheit kein CSS-Isolation-Scope-
+  Attribut, wodurch seitenspezifische, scoped Regeln dafuer nie greifen wuerden.
+*/
+.suche__form {
+  display: flex;
+  width: 100%;
+  gap: 0.625rem;
+}
+
 @media (max-width: 520px) {
+  .suche__form {
+    flex-direction: column;
+  }
+
   .tabelle {
     font-size: 0.8125rem;
   }
