@@ -1,4 +1,3 @@
 <Solution>
-  <Project Path="AktienMarkplatz.Tests/AktienMarkplatz.Tests.csproj" />
   <Project Path="AktienMarkplatz/AktienMarkplatz.csproj" />
 </Solution>

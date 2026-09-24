@@ -1,23 +1,11 @@
 @model AktienMarkplatz.Classes.Kursverlauf
 @using AktienMarkplatz.Classes
-@using Microsoft.AspNetCore.Http.Extensions
 
 @* Wiederverwendbares Kursdiagramm. Einbinden mit:
    <partial name="_Kursdiagramm" model="Model.Verlauf" />
    Gezeichnet wird es in wwwroot/js/site.js. *@
 
 @{
-    // Link fuer einen Zeitraum-Button: aktuelle URL, nur "zeitraum" wird ersetzt.
-    // So funktioniert das Partial auf jeder Seite.
-    string ZeitraumLink(string zeitraum)
-    {
-        var parameter = new QueryBuilder(Context.Request.Query
-            .Where(eintrag => eintrag.Key != "zeitraum")
-            .SelectMany(eintrag => eintrag.Value.Select(wert => new KeyValuePair<string, string>(eintrag.Key, wert ?? ""))));
-        parameter.Add("zeitraum", zeitraum);
-        return Context.Request.Path + parameter.ToQueryString().ToString();
-    }
-
     string punkteJson = System.Text.Json.JsonSerializer.Serialize(
         Model.Punkte.Select(punkt => new { datum = punkt.Datum.ToString("dd.MM.yy"), wert = punkt.Wert }));
 }
@@ -28,7 +16,8 @@
         <nav class="kursdiagramm__zeitraeume" aria-label="Zeitraum">
             @foreach (string zeitraum in Kursverlauf.Zeitraeume)
             {
-                <a href="@ZeitraumLink(zeitraum)"
+                @* Link auf die aktuelle Seite, die Suche (symbol) bleibt erhalten. *@
+                <a asp-route-symbol="@Context.Request.Query["symbol"]" asp-route-zeitraum="@zeitraum"
                    class="kursdiagramm__zeitraum @(zeitraum == Model.Zeitraum ? "kursdiagramm__zeitraum--aktiv" : "")">@zeitraum</a>
             }
         </nav>

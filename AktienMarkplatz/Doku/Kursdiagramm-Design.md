@@ -30,7 +30,7 @@ Kostenloser Tarif: 5 Anfragen pro Minute, 2 Jahre Historie. Geladene Verläufe w
 | Datei | Aufgabe |
 |---|---|
 | `Classes/Kurspunkt.cs` | Ein Punkt: `Datum`, `Wert` |
-| `Classes/Kursverlauf.cs` | `Titel` + Liste von Kurspunkten. Methoden: `Hoechst()`, `Tiefst()`, `VeraenderungProzent()`, `Steigt()`, `VeraenderungCssKlasse()`, `StartDatum(zeitraum)` |
+| `Classes/Kursverlauf.cs` | `Titel` + Liste von Kurspunkten. Methoden: `Hoechst()`, `Tiefst()`, `VeraenderungProzent()`, `Steigt()`, `VeraenderungCssKlasse()`, `StartDatum()` |
 | `API/Massive/MassiveKursverlaufAntwort.cs` | JSON-Antwort von Massive |
 | `API/Massive/MassiveVerbindung.cs` | neue Methode `KursverlaufLaden(ticker, zeitraum)` → `Kursverlauf` |
 | `Pages/Shared/_Kursdiagramm.cshtml` | zeichnet **jeden** `Kursverlauf`: Kopf mit Zeitraum-Links, `<canvas>`, Hoch/Tief/Veränderung |
@@ -81,9 +81,7 @@ Hoch 231,10 $   Tief 208,40 $   Zeitraum ▲ 8,4 %
 
 ## Tests
 
-Neues xUnit-Projekt `AktienMarkplatz.Tests` mit Tests für `Kursverlauf`
-(Hoch, Tief, Veränderung, leerer Verlauf, Startdatum pro Zeitraum).
-Die API selbst wird nicht automatisch getestet, sondern im Browser geprüft.
+Kein eigenes Testprojekt. Geprüft wird im Browser (Zeiträume, Suche, API-Limit).
 
 ## Nicht Teil dieser Aufgabe
 

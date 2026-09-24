@@ -22,7 +22,9 @@
   gap: 0.25rem;
 }
 
-.kursdiagramm__zeitraum {
+/* Die Zeitraum-Links sind Tag-Helper (asp-route-...), die bekommen kein
+   CSS-Isolation-Attribut. Deshalb ueber ::deep vom Eltern-Element aus. */
+.kursdiagramm__zeitraeume ::deep .kursdiagramm__zeitraum {
   padding: 0.3rem 0.7rem;
   border-radius: var(--radius-s);
   color: var(--ink-muted);
@@ -31,12 +33,12 @@
   text-decoration: none;
 }
 
-.kursdiagramm__zeitraum:hover {
+.kursdiagramm__zeitraeume ::deep .kursdiagramm__zeitraum:hover {
   background: var(--panel);
   color: var(--ink);
 }
 
-.kursdiagramm__zeitraum--aktiv {
+.kursdiagramm__zeitraeume ::deep .kursdiagramm__zeitraum--aktiv {
   background: var(--akzent-tint);
   color: var(--akzent);
   font-weight: 600;

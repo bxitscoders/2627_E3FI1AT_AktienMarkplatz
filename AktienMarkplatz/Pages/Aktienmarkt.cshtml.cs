@@ -54,6 +54,9 @@ namespace AktienMarkplatz.Pages
                 {
                     Verlauf = await _massive.KursverlaufLaden(GefundeneAktie.Symbol, zeitraum);
                 }
+
+                // Bei einer Suche wird nur das Ergebnis gezeigt, die Beispielaktien nicht.
+                return;
             }
 
             Aktie[] geladeneAktien = await Task.WhenAll(

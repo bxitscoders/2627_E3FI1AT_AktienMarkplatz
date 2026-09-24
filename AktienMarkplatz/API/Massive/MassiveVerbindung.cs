@@ -49,7 +49,7 @@ namespace AktienMarkplatz.API.Massive
                 return eintrag.Verlauf;
             }
 
-            string von = Kursverlauf.StartDatum(verlauf.Zeitraum, DateTime.Today).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            string von = verlauf.StartDatum().ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
             string bis = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
             string url = $"{BasisUrl}/v2/aggs/ticker/{WebUtility.UrlEncode(ticker)}/range/1/day/{von}/{bis}?adjusted=true&sort=asc&apiKey={_apiKey}";
 

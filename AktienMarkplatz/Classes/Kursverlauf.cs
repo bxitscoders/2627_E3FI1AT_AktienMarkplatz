@@ -17,7 +17,12 @@ namespace AktienMarkplatz.Classes
         public Kursverlauf(string titel, string? zeitraum)
         {
             Titel = titel;
-            Zeitraum = ZeitraumPruefen(zeitraum);
+
+            // Unbekannte Zeitraeume (z. B. aus der URL) werden zu "1M".
+            if (zeitraum != null && Zeitraeume.Contains(zeitraum))
+                Zeitraum = zeitraum;
+            else
+                Zeitraum = "1M";
         }
 
         public void PunktHinzufuegen(DateTime datum, double wert)
@@ -72,24 +77,15 @@ namespace AktienMarkplatz.Classes
             return "veraenderung--verlust";
         }
 
-        // Unbekannte Zeitraeume (z. B. aus der URL) werden zu "1M".
-        public static string ZeitraumPruefen(string? zeitraum)
+        // Ab welchem Tag die Kurse fuer den Zeitraum geladen werden.
+        public DateTime StartDatum()
         {
-            if (zeitraum != null && Zeitraeume.Contains(zeitraum))
-                return zeitraum;
-
-            return "1M";
-        }
-
-        // Ab welchem Tag die Kurse geladen werden.
-        public static DateTime StartDatum(string zeitraum, DateTime heute)
-        {
-            switch (ZeitraumPruefen(zeitraum))
+            switch (Zeitraum)
             {
-                case "1W": return heute.AddDays(-7);
-                case "6M": return heute.AddMonths(-6);
-                case "1J": return heute.AddYears(-1);
-                default: return heute.AddMonths(-1);
+                case "1W": return DateTime.Today.AddDays(-7);
+                case "6M": return DateTime.Today.AddMonths(-6);
+                case "1J": return DateTime.Today.AddYears(-1);
+                default: return DateTime.Today.AddMonths(-1);
             }
         }
     }
