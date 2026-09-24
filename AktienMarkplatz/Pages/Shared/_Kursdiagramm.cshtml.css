@@ -1,0 +1,74 @@
+.kursdiagramm {
+  margin: 1.5rem 0;
+}
+
+.kursdiagramm__kopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.kursdiagramm__titel {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.kursdiagramm__zeitraeume {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.kursdiagramm__zeitraum {
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-s);
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.kursdiagramm__zeitraum:hover {
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.kursdiagramm__zeitraum--aktiv {
+  background: var(--akzent-tint);
+  color: var(--akzent);
+  font-weight: 600;
+}
+
+.kursdiagramm__rahmen {
+  position: relative;
+  height: 260px;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-s);
+  background: var(--bg);
+}
+
+.kursdiagramm__kennzahlen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: 0.75rem;
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.kursdiagramm__kennzahlen .veraenderung--gewinn {
+  color: var(--gain);
+}
+
+.kursdiagramm__kennzahlen .veraenderung--verlust {
+  color: var(--loss);
+}
+
+.kursdiagramm__leer {
+  color: var(--ink-muted);
+}
