@@ -51,33 +51,42 @@
                     </tr>
                 </tbody>
             </table>
+
+            @if (Model.Verlauf is not null)
+            {
+                <partial name="_Kursdiagramm" model="Model.Verlauf" />
+            }
         }
     </section>
 }
 
-<section class="top-aktien">
-    <h2>Aktienprodukte</h2>
+@* Die Beispielaktien nur ohne Suche zeigen, bei einer Suche nur das Ergebnis. *@
+@if (string.IsNullOrWhiteSpace(Model.Symbol))
+{
+    <section class="top-aktien">
+        <h2>Aktienprodukte</h2>
 
-    <table class="tabelle">
-        <thead>
-            <tr>
-                <th scope="col">Wertpapier</th>
-                <th scope="col">Kurs</th>
-                <th scope="col">Heute</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var aktie in Model.Boerse.GroessteAktien())
-            {
+        <table class="tabelle">
+            <thead>
                 <tr>
-                    <td>
-                        <span class="wertpapier__ticker">@aktie.Symbol</span>
-                        <span class="wertpapier__name">@aktie.Name</span>
-                    </td>
-                    <td>@aktie.AktuellerKurs.ToString("0.00") $</td>
-                    <td class="@aktie.VeraenderungCssKlasse()">@aktie.KursAenderung()</td>
+                    <th scope="col">Wertpapier</th>
+                    <th scope="col">Kurs</th>
+                    <th scope="col">Heute</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</section>
+            </thead>
+            <tbody>
+                @foreach (var aktie in Model.Boerse.GroessteAktien())
+                {
+                    <tr>
+                        <td>
+                            <span class="wertpapier__ticker">@aktie.Symbol</span>
+                            <span class="wertpapier__name">@aktie.Name</span>
+                        </td>
+                        <td>@aktie.AktuellerKurs.ToString("0.00") $</td>
+                        <td class="@aktie.VeraenderungCssKlasse()">@aktie.KursAenderung()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+}
