@@ -1,3 +1,5 @@
+using System.Globalization;
+
 using AktienMarkplatz.Data;
 
 using AktienMarkplatz.Models;
@@ -40,6 +42,13 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 .AddDefaultTokenProviders();
 
+// Ohne Login auf eine [Authorize]-Seite -> auf die Identity-Login-Seite umleiten.
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+});
+
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 var app = builder.Build();
@@ -55,6 +64,15 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 
 }
+
+// Feste deutsche Kultur, damit "10,50" auf jedem Rechner als 10,50 € ankommt.
+var deutsch = new CultureInfo("de-DE");
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture(deutsch),
+    SupportedCultures = new[] { deutsch },
+    SupportedUICultures = new[] { deutsch }
+});
 
 app.UseHttpsRedirection();
 
