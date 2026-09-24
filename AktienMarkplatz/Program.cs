@@ -1,3 +1,4 @@
+using AktienMarkplatz.Classes;
 using AktienMarkplatz.Data;
 
 using AktienMarkplatz.Models;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
 using Microsoft.EntityFrameworkCore;
+using IdentitaetsSeeder = AktienMarkplatz.Classes.IdentitaetsSeeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +22,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
     options.UseSqlite(builder.Configuration.GetConnectionString("AktienMarkplatzDB")));
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 {
 
@@ -35,15 +37,19 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.User.RequireUniqueEmail = true;
 
 })
-
+    .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>()
-
 .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{ 
+    await IdentitaetsSeeder.SeedRolesAsync(scope.ServiceProvider);
+
+}
 // Configure the HTTP request pipeline.
 
 if (!app.Environment.IsDevelopment())
