@@ -5,5 +5,27 @@
     ViewData["Title"] = "Verrechnungskonto";
 }
 
-@* TODO: Kontostand anzeigen und Einzahlung auf das Verrechnungskonto ermöglichen. *@
-<h1>Verrechnungskonto</h1>
+<section class="konto-kopf">
+    <h1 class="konto-kopf__titel">Verrechnungskonto</h1>
+    <div class="konto-kopf__betrag">@Model.Kontostand.ToString("C")</div>
+</section>
+
+<section class="einzahlung">
+    <h2 class="einzahlung__titel">Geld einzahlen</h2>
+
+    <form method="post" asp-page-handler="Einzahlen">
+        @* Klasse am div statt am form: form bekommt kein CSS-Isolation-Attribut (siehe site.css). *@
+        <div class="einzahlung__form">
+            <div class="feld">
+                <label asp-for="Betrag" class="feld__label">Betrag in €</label>
+                <input asp-for="Betrag" class="feld__eingabe" value="" placeholder="z. B. 100,00" />
+            </div>
+            <button type="submit" class="btn btn--primaer">Einzahlen</button>
+        </div>
+    </form>
+
+    @if (!string.IsNullOrEmpty(Model.Meldung))
+    {
+        <p class="leer">@Model.Meldung</p>
+    }
+</section>

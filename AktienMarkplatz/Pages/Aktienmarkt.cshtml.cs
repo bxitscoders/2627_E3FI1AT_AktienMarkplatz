@@ -1,12 +1,12 @@
 using System.Linq;
 using System.Threading.Tasks;
-using AktienMarkplatz.API;
+using AktienMarkplatz.API.Finnhub;
 using AktienMarkplatz.Classes;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AktienMarkplatz.Pages
 {
-    // Seite zum Suchen einer Aktie und Anzeigen ihrer Dividenden.
+    // Seite zum Suchen einer Aktie und Anzeigen ihres aktuellen Kurses.
     public class AktienmarktModel : PageModel
     {
         // Feste Auswahl bekannter Aktien fuer die "Groesste Aktien"-Uebersicht.
@@ -19,15 +19,16 @@ namespace AktienMarkplatz.Pages
             ("NVDA", "NVIDIA Corp."),
         };
 
-        private readonly Connection _connection;
+        private readonly FinnhubVerbindung _finnhub;
 
         public AktienmarktModel(IConfiguration configuration)
         {
-            string apiKey = configuration["StockApi:ApiKey"] ?? string.Empty;
-            _connection = new Connection(apiKey);
+            string finnhubApiKey = configuration["FinnhubApi:ApiKey"] ?? string.Empty;
+            _finnhub = new FinnhubVerbindung(finnhubApiKey);
         }
 
-        public DividendenAntwort? Antwort { get; private set; }
+        // Die gesuchte Aktie, null wenn nichts gefunden wurde.
+        public Aktie? GefundeneAktie { get; private set; }
 
         public string Symbol { get; set; } = string.Empty;
 
@@ -39,11 +40,11 @@ namespace AktienMarkplatz.Pages
 
             if (!string.IsNullOrWhiteSpace(symbol))
             {
-                Antwort = await _connection.GetAktie(symbol);
+                GefundeneAktie = await _finnhub.AktieSuchen(symbol);
             }
 
             Aktie[] geladeneAktien = await Task.WhenAll(
-                BeispielAktien.Select(beispiel => _connection.AktieLaden(beispiel.Ticker, beispiel.Name)));
+                BeispielAktien.Select(beispiel => _finnhub.AktieLaden(beispiel.Ticker, beispiel.Name)));
 
             foreach (Aktie aktie in geladeneAktien)
             {
