@@ -1,34 +1,96 @@
-using CoreIdent.Core.Extensions;
+using System.Globalization;
+using AktienMarkplatz.Data;
+using AktienMarkplatz.Models;
+using AktienMarkplatz.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
+using IdentitaetsSeeder = AktienMarkplatz.Classes.IdentitaetsSeeder;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Der: SigningKeySecret wurde in user secrets gesichert
-builder.Services.AddCoreIdent(o => {
-    o.Issuer = "https://localhost:7280";
-    o.Audience = "https://localhost:7280/resources/my-api"; 
-    o.SigningKeySecret = builder.Configuration["CoreIdent:SigningKeySecret"];
-});
 
 builder.Services.AddRazorPages();
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+
+    options.UseSqlite(builder.Configuration.GetConnectionString("AktienMarkplatzDB")));
+
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+
+{
+
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(45);
+    options.User.RequireUniqueEmail = true;
+
+})
+    .AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+// Ohne Login auf eine [Authorize]-Seite -> auf die Identity-Login-Seite umleiten.
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+});
+
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+using (var scope = app.Services.CreateScope())
+{ 
+    await IdentitaetsSeeder.SeedRolesAsync(scope.ServiceProvider);
+
 }
-app.MapCoreIdentEndpoints();
+// Configure the HTTP request pipeline.
+
+if (!app.Environment.IsDevelopment())
+
+{
+
+    app.UseExceptionHandler("/Error");
+
+    app.UseHsts();
+
+}
+
+// Feste deutsche Kultur, damit "10,50" auf jedem Rechner als 10,50 € ankommt.
+var deutsch = new CultureInfo("de-DE");
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture(deutsch),
+    SupportedCultures = new[] { deutsch },
+    SupportedUICultures = new[] { deutsch }
+});
+
 app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
 app.MapRazorPages()
+
    .WithStaticAssets();
+
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/Identity/Account/Login?returnUrl=/Aktienmarkt");
+    return Task.CompletedTask;
+});
 
 app.Run();

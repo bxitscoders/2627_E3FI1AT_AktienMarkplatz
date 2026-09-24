@@ -1,0 +1,44 @@
+@model AktienMarkplatz.Classes.Kursverlauf
+@using AktienMarkplatz.Classes
+
+@* Wiederverwendbares Kursdiagramm. Einbinden mit:
+   <partial name="_Kursdiagramm" model="Model.Verlauf" />
+   Gezeichnet wird es in wwwroot/js/site.js. *@
+
+@{
+    string punkteJson = System.Text.Json.JsonSerializer.Serialize(
+        Model.Punkte.Select(punkt => new { datum = punkt.Datum.ToString("dd.MM.yy"), wert = punkt.Wert }));
+}
+
+<section class="kursdiagramm">
+    <div class="kursdiagramm__kopf">
+        <h2 class="kursdiagramm__titel">@Model.Titel</h2>
+        <nav class="kursdiagramm__zeitraeume" aria-label="Zeitraum">
+            @foreach (string zeitraum in Kursverlauf.Zeitraeume)
+            {
+                @* Link auf die aktuelle Seite, die Suche (symbol) bleibt erhalten. *@
+                <a asp-route-symbol="@Context.Request.Query["symbol"]" asp-route-zeitraum="@zeitraum"
+                   class="kursdiagramm__zeitraum @(zeitraum == Model.Zeitraum ? "kursdiagramm__zeitraum--aktiv" : "")">@zeitraum</a>
+            }
+        </nav>
+    </div>
+
+    @if (Model.IstLeer())
+    {
+        <p class="kursdiagramm__leer">Kein Kursverlauf verfügbar. Bitte in einer Minute nochmal versuchen.</p>
+    }
+    else
+    {
+        <div class="kursdiagramm__rahmen">
+            <canvas class="kursdiagramm__flaeche"
+                    data-steigt="@(Model.Steigt() ? "true" : "false")"
+                    data-punkte="@punkteJson"></canvas>
+        </div>
+
+        <div class="kursdiagramm__kennzahlen">
+            <span>Hoch @Model.Hoechst().ToString("0.00") $</span>
+            <span>Tief @Model.Tiefst().ToString("0.00") $</span>
+            <span class="@Model.VeraenderungCssKlasse()">Zeitraum @(Model.Steigt() ? "▲" : "▼") @Model.VeraenderungText()</span>
+        </div>
+    }
+</section>

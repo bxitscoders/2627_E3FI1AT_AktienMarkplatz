@@ -1,29 +1,7 @@
 /* Suche */
 
 .suche {
-  min-height: 40vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 2.5rem 0;
-}
-
-.suche__titel {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin: 0 0 2rem;
-  color: var(--ink);
-  max-width: 18ch;
-}
-
-.suche__form {
-  display: flex;
-  width: 100%;
-  max-width: 480px;
-  gap: 0.625rem;
+  padding: 1.5rem 0 2rem;
 }
 
 .suche__eingabe {
@@ -106,20 +84,30 @@
   font-size: 0.9375rem;
 }
 
-.ergebnis__betrag {
-  font-weight: 500;
-}
-
 .ergebnis__leer {
   color: var(--ink-muted);
   padding: 1rem 0;
 }
 
-@media (max-width: 520px) {
-  .suche__form {
-    flex-direction: column;
-  }
+/* Top-Aktien */
 
+.top-aktien {
+  margin-top: 1rem;
+}
+
+.wertpapier__ticker {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.wertpapier__name {
+  display: block;
+  color: var(--ink-muted);
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 520px) {
   .suche__button {
     width: 100%;
   }

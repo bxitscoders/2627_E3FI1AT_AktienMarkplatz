@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AktienMarkplatz.Classes.Aktie" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAgQAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Classes\Aktie.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AktienMarkplatz.Classes.Benutzer" Collapsed="true">
+    <Position X="5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAgAA=</HashCode>
+      <FileName>Classes\Benutzer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AktienMarkplatz.Classes.Boerse" Collapsed="true">
+    <Position X="6.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Boerse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AktienMarkplatz.Classes.Depot" Collapsed="true">
+    <Position X="9" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Depot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AktienMarkplatz.Classes.Einstellungen" Collapsed="true">
+    <Position X="9.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Einstellungen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AktienMarkplatz.Classes.Kauftransaktion" Collapsed="true">
+    <Position X="3.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Kauftransaktion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AktienMarkplatz.Classes.Konto" Collapsed="true">
+    <Position X="4" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Konto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AktienMarkplatz.Classes.Position" Collapsed="true">
+    <Position X="6.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAQAAQAAAAAAAAAAAAABAQAAIAAAA=</HashCode>
+      <FileName>Classes\Position.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AktienMarkplatz.Classes.Transaktion" Collapsed="true">
+    <Position X="2" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAABAAAAAAAAAQAAAAAAACAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Classes\Transaktion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AktienMarkplatz.Classes.Verkaufstransaktion" Collapsed="true">
+    <Position X="0.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Verkaufstransaktion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,13 +1,12 @@
 @page
+@using Microsoft.AspNetCore.Authorization;
 @model AktienMarkplatz.Pages.AktienmarktModel
-
+@attribute [Authorize(Roles = "User")]
 @{
     ViewData["Title"] = "Aktienmarkt";
 }
 
 <section class="suche">
-    <h1 class="suche__titel">Welche Aktie interessiert dich?</h1>
-
     <form method="get" class="suche__form">
         <label for="symbol" class="visually-hidden">Ticker oder Firmenname</label>
         <input id="symbol"
@@ -24,48 +23,71 @@
 @if (!string.IsNullOrWhiteSpace(Model.Symbol))
 {
     <section class="ergebnis" aria-live="polite">
-        @if (Model.Antwort is null)
+        @if (Model.GefundeneAktie is null)
         {
             <p class="ergebnis__leer">
                 Keine Aktie gefunden für „@Model.Symbol“. Versuch's mit dem Tickersymbol, z. B. AAPL.
             </p>
         }
-        else if (Model.Antwort.Ergebnisse.Count == 0)
-        {
-            <div class="ergebnis__kopf">
-                <span class="ergebnis__ticker">@Model.Symbol.ToUpper()</span>
-                <span class="ergebnis__meta">Keine Dividendenhistorie hinterlegt</span>
-            </div>
-            <p class="ergebnis__leer">Diese Aktie schüttet aktuell keine Dividende aus.</p>
-        }
         else
         {
-            var erste = Model.Antwort.Ergebnisse[0];
+            var aktie = Model.GefundeneAktie;
 
             <div class="ergebnis__kopf">
-                <span class="ergebnis__ticker">@erste.Tickersymbol</span>
-                <span class="ergebnis__meta">Ergebnisse für „@Model.Symbol“</span>
+                <span class="ergebnis__ticker">@aktie.Symbol</span>
+                <span class="ergebnis__meta">@aktie.Name</span>
             </div>
 
             <table class="tabelle">
                 <thead>
                     <tr>
-                        <th scope="col">Auszahlung</th>
-                        <th scope="col">Ex-Datum</th>
-                        <th scope="col">Betrag</th>
+                        <th scope="col">Kurs</th>
+                        <th scope="col">Heute</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var dividende in Model.Antwort.Ergebnisse)
-                    {
-                        <tr>
-                            <td>@dividende.Auszahlungsdatum</td>
-                            <td>@dividende.ExDatum</td>
-                            <td class="ergebnis__betrag">@dividende.Betrag.ToString("0.00") €</td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>@aktie.AktuellerKurs.ToString("0.00") $</td>
+                        <td class="@aktie.VeraenderungCssKlasse()">@aktie.KursAenderung()</td>
+                    </tr>
                 </tbody>
             </table>
+
+            @if (Model.Verlauf is not null)
+            {
+                <partial name="_Kursdiagramm" model="Model.Verlauf" />
+            }
         }
+    </section>
+}
+
+@* Die Beispielaktien nur ohne Suche zeigen, bei einer Suche nur das Ergebnis. *@
+@if (string.IsNullOrWhiteSpace(Model.Symbol))
+{
+    <section class="top-aktien">
+        <h2>Aktienprodukte</h2>
+
+        <table class="tabelle">
+            <thead>
+                <tr>
+                    <th scope="col">Wertpapier</th>
+                    <th scope="col">Kurs</th>
+                    <th scope="col">Heute</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var aktie in Model.Boerse.GroessteAktien())
+                {
+                    <tr>
+                        <td>
+                            <span class="wertpapier__ticker">@aktie.Symbol</span>
+                            <span class="wertpapier__name">@aktie.Name</span>
+                        </td>
+                        <td>@aktie.AktuellerKurs.ToString("0.00") $</td>
+                        <td class="@aktie.VeraenderungCssKlasse()">@aktie.KursAenderung()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </section>
 }
