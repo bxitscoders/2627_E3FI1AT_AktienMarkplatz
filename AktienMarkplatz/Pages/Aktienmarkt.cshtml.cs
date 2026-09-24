@@ -1,12 +1,13 @@
 using System.Linq;
 using System.Threading.Tasks;
-using AktienMarkplatz.API;
+using AktienMarkplatz.API.Finnhub;
+using AktienMarkplatz.API.Massive;
 using AktienMarkplatz.Classes;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AktienMarkplatz.Pages
 {
-    // Seite zum Suchen einer Aktie und Anzeigen ihrer Dividenden.
+    // Seite zum Suchen einer Aktie und Anzeigen ihres aktuellen Kurses.
     public class AktienmarktModel : PageModel
     {
         // Feste Auswahl bekannter Aktien fuer die "Groesste Aktien"-Uebersicht.
@@ -19,31 +20,47 @@ namespace AktienMarkplatz.Pages
             ("NVDA", "NVIDIA Corp."),
         };
 
-        private readonly Connection _connection;
+        private readonly FinnhubVerbindung _finnhub;
+        private readonly MassiveVerbindung _massive;
 
         public AktienmarktModel(IConfiguration configuration)
         {
-            string apiKey = configuration["StockApi:ApiKey"] ?? string.Empty;
-            _connection = new Connection(apiKey);
+            string finnhubApiKey = configuration["FinnhubApi:ApiKey"] ?? string.Empty;
+            _finnhub = new FinnhubVerbindung(finnhubApiKey);
+
+            string massiveApiKey = configuration["MassiveApi:ApiKey"] ?? string.Empty;
+            _massive = new MassiveVerbindung(massiveApiKey);
         }
 
-        public DividendenAntwort? Antwort { get; private set; }
+        // Die gesuchte Aktie, null wenn nichts gefunden wurde.
+        public Aktie? GefundeneAktie { get; private set; }
+
+        // Kursverlauf der gesuchten Aktie, null wenn keine Aktie gefunden wurde.
+        public Kursverlauf? Verlauf { get; private set; }
 
         public string Symbol { get; set; } = string.Empty;
 
         public Boerse Boerse { get; private set; } = new();
 
-        public async Task OnGetAsync(string symbol)
+        public async Task OnGetAsync(string symbol, string? zeitraum)
         {
             Symbol = symbol;
 
             if (!string.IsNullOrWhiteSpace(symbol))
             {
-                Antwort = await _connection.GetAktie(symbol);
+                GefundeneAktie = await _finnhub.AktieSuchen(symbol);
+
+                if (GefundeneAktie is not null)
+                {
+                    Verlauf = await _massive.KursverlaufLaden(GefundeneAktie.Symbol, zeitraum);
+                }
+
+                // Bei einer Suche wird nur das Ergebnis gezeigt, die Beispielaktien nicht.
+                return;
             }
 
             Aktie[] geladeneAktien = await Task.WhenAll(
-                BeispielAktien.Select(beispiel => _connection.AktieLaden(beispiel.Ticker, beispiel.Name)));
+                BeispielAktien.Select(beispiel => _finnhub.AktieLaden(beispiel.Ticker, beispiel.Name)));
 
             foreach (Aktie aktie in geladeneAktien)
             {

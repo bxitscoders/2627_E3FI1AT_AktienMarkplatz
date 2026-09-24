@@ -84,10 +84,6 @@
   font-size: 0.9375rem;
 }
 
-.ergebnis__betrag {
-  font-weight: 500;
-}
-
 .ergebnis__leer {
   color: var(--ink-muted);
   padding: 1rem 0;
