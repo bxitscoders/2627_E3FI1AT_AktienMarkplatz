@@ -17,8 +17,9 @@ namespace AktienMarkplatz.API
             _apiKey = apiKey;
         }
 
-        // Fuehrt einen GET-Aufruf aus. Ist die API nicht erreichbar oder das Anfragelimit
-        // erreicht (z. B. 429), kommt null zurueck, statt dass die Seite abstuerzt.
+        // Fuehrt einen GET-Aufruf aus. Ist die API nicht erreichbar, das Anfragelimit
+        // erreicht (z. B. 429), die Antwort kein JSON oder die Zeit abgelaufen,
+        // kommt null zurueck, statt dass die Seite abstuerzt.
         protected async Task<T?> AbfrageAusfuehren<T>(string url) where T : class
         {
             try
@@ -28,7 +29,7 @@ namespace AktienMarkplatz.API
 
                 return await antwort.Content.ReadFromJsonAsync<T>();
             }
-            catch (HttpRequestException)
+            catch (Exception)
             {
                 return null;
             }
