@@ -1,6 +1,7 @@
 @page
+@using Microsoft.AspNetCore.Authorization;
 @model AktienMarkplatz.Pages.NewsModel
-
+@attribute [Authorize(Roles = "User")]
 @{
     ViewData["Title"] = "News";
 }
