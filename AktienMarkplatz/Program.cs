@@ -1,16 +1,9 @@
-using AktienMarkplatz.Classes;
 using System.Globalization;
-
 using AktienMarkplatz.Data;
-
 using AktienMarkplatz.Models;
-
 using AktienMarkplatz.Services;
-
 using Microsoft.AspNetCore.Identity;
-
 using Microsoft.AspNetCore.Identity.UI.Services;
-
 using Microsoft.EntityFrameworkCore;
 using IdentitaetsSeeder = AktienMarkplatz.Classes.IdentitaetsSeeder;
 
